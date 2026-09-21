@@ -1,0 +1,24 @@
+2026-09-15T01:12:03.101234Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.33) starting as process 1
+2026-09-15T01:12:03.234567Z 1 [System] [MY-013576] [Server] InnoDB initialization has started.
+2026-09-15T01:12:04.345678Z 1 [System] [MY-013577] [Server] InnoDB initialization has ended.
+2026-09-15T01:12:04.456789Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-09-15T01:12:04.567890Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.33'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306
+2026-09-15T02:30:11.111111Z 0 [Warning] [MY-010000] [Server] Slow query: SELECT * FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.status = 'pending' ORDER BY o.created_at DESC (duration: 18.452s, rows_examined: 8432917, rows_sent: 20)
+2026-09-15T02:31:22.222222Z 0 [Warning] [MY-010000] [Server] Slow query: SELECT COUNT(*) FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE created_at > '2026-01-01') (duration: 25.774s, rows_examined: 15238441, rows_sent: 1)
+2026-09-15T03:05:33.333333Z 0 [Warning] [MY-010000] [Server] Aborted connection 4821 to db: 'shop' user: 'app' host: '172.18.0.12' (Got timeout reading communication packets)
+2026-09-15T03:40:44.444444Z 0 [ERROR] [MY-000000] [Server] Too many connections: 152 active connections, max_connections=151
+2026-09-15T03:40:44.444555Z 0 [Warning] [MY-000000] [Server] Connection pool exhausted, rejecting new connection from 172.18.0.13
+2026-09-15T03:41:02.555555Z 0 [ERROR] [MY-000000] [Server] Can't create thread to handle new connection (errno= 11)
+2026-09-15T04:15:55.666666Z 14 [ERROR] [MY-011825] [Server] Deadlock found when trying to get lock; try restarting transaction
+2026-09-15T04:15:55.666777Z 14 [ERROR] [MY-011825] [Server] Transaction 1: UPDATE inventory SET stock = stock - 1 WHERE product_id = 10086
+2026-09-15T04:15:55.666888Z 15 [ERROR] [MY-011825] [Server] Transaction 2: UPDATE inventory SET stock = stock - 1 WHERE product_id = 10010
+2026-09-15T05:20:01.777777Z 0 [ERROR] [MY-012592] [Server] InnoDB: Operating system error number 28 in a file operation
+2026-09-15T05:20:01.777888Z 0 [ERROR] [MY-012593] [Server] InnoDB: Error number 28 means 'No space left on device'
+2026-09-15T05:20:01.777999Z 0 [ERROR] [MY-012267] [Server] InnoDB: Could not set the file size of './ibtmp1'. Probably out of disk space
+2026-09-15T05:20:01.778111Z 0 [ERROR] [MY-012145] [Server] InnoDB: Write to file ./ibtmp1failed at offset 0, 1048576 bytes should have been written, only 0 were written.
+2026-09-15T06:00:12.888888Z 22 [Warning] [MY-010000] [Server] Aborted connection 6210 to db: 'shop' user: 'app' host: '172.18.0.14' (Got an error reading communication packets)
+2026-09-15T07:30:33.999999Z 0 [ERROR] [MY-010584] [Repl] Slave I/O for channel '': error connecting to master 'repl@10.0.1.30:3306' - retry-time: 60 retries: 3, Error_code: MY-002003
+2026-09-15T07:30:33.999111Z 0 [ERROR] [MY-010557] [Repl] Error reading packet from server for channel '': Could not find first log file name in binary log index file (server_errno=1236)
+2026-09-15T08:45:00.123456Z 0 [ERROR] [MY-013183] [Server] Assertion failure: buf0buf.cc:4123:block->frame != nullptr thread 140234567890176
+2026-09-15T08:45:00.123567Z 0 [ERROR] [MY-013183] [Server] InnoDB: We intentionally generate a memory trap to print a stack trace
+2026-09-15T08:45:00.234567Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete

@@ -1,0 +1,18 @@
+# 统一使用 LF 换行符
+# 原因：本项目的 shell 脚本（exec.sh、scripts/*.sh）和 Dockerfile 都要在 Linux 上执行，
+# 若被转成 CRLF，Linux 会报 "bad interpreter: No such file or directory"。
+* text=auto eol=lf
+
+# Windows 批处理脚本保持 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件不做换行符转换
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.gz binary
+*.zip binary
+*.xz binary
+*.pdf binary

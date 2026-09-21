@@ -1,0 +1,33 @@
+1:M 15 Sep 2026 09:12:03.101 * Redis version=7.0.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:M 15 Sep 2026 09:12:03.102 * Configuration loaded
+1:M 15 Sep 2026 09:12:03.103 * monotonic clock: POSIX clock_gettime
+1:M 15 Sep 2026 09:12:03.104 * Running mode=standalone, port=6379.
+1:M 15 Sep 2026 09:12:03.105 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+1:M 15 Sep 2026 09:12:03.106 * Server initialized
+1:M 15 Sep 2026 09:12:03.107 * Loading RDB produced by version 7.0.5
+1:M 15 Sep 2026 09:12:03.208 * DB loaded from disk: 0.101 seconds
+1:M 15 Sep 2026 09:12:03.209 * Ready to accept connections tcp
+1:M 15 Sep 2026 10:05:41.321 * Background saving started by pid 245
+1:M 15 Sep 2026 10:05:41.512 # Failed opening the RDB file dump.rdb (in server root dir /var/lib/redis) for saving: Permission denied
+1:M 15 Sep 2026 10:05:41.513 # Error trying to save the DB, can't exit.
+1:M 15 Sep 2026 10:05:41.514 # MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+245:C 15 Sep 2026 10:05:41.610 # Write error saving DB on disk: Permission denied
+1:M 15 Sep 2026 10:31:22.887 * 100 changes in 300 seconds. Saving...
+1:M 15 Sep 2026 10:31:22.888 * Background saving started by pid 301
+1:M 15 Sep 2026 10:31:23.101 # Can't save in background: fork: Cannot allocate memory
+1:M 15 Sep 2026 11:15:09.445 # maxmemory policy 'noeviction' reached, command SET rejected
+1:M 15 Sep 2026 11:15:09.446 * Increasing maxmemory to 4294967296 to allow eviction
+1:M 15 Sep 2026 11:15:10.001 # WARNING memory usage 4021.55 MB, maxmemory 4096.00 MB, used_memory_rss 4385.21 MB
+1:M 15 Sep 2026 11:15:10.002 * Evicting keys, 1523 keys evicted in this cycle
+1:M 15 Sep 2026 11:47:33.220 * Connecting to MASTER 10.0.1.20:6379
+1:M 15 Sep 2026 11:47:38.221 # Unable to connect to MASTER: Connection refused
+1:M 15 Sep 2026 11:47:38.222 * MASTER <-> REPLICA sync started
+1:S 15 Sep 2026 11:47:43.330 # ERROR: Lost connection with MASTER, retrying
+1:S 15 Sep 2026 11:47:43.331 # Connection with master lost.
+1:S 15 Sep 2026 11:47:43.332 * Caching the disconnected master state.
+1:S 15 Sep 2026 12:20:15.678 # WARNING: maxclients reached, 10000 client connections, closing connection from 172.18.0.15
+1:M 15 Sep 2026 12:20:15.679 # Error accepting a client connection: err: Too many open files
+1:M 15 Sep 2026 13:02:44.111 * 3 clients connected (0 replicas), 4294901760 bytes in use
+1:M 15 Sep 2026 13:30:00.999 # === REDIS BUG REPORT START: Cutting & pasting this crash report ===
+1:M 15 Sep 2026 13:30:00.999 # Redis 7.0.5 crashed by signal: 11, si_code: 1
+1:M 15 Sep 2026 13:30:01.000 # Crashed running the instruction at: 0x000055d5a1c3f2a1

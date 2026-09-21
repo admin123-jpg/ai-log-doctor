@@ -1,0 +1,20 @@
+# ==================== 核心依赖（必须安装）====================
+# FastAPI：Web 框架，用来写接口，自动生成 /docs 文档
+fastapi==0.115.0
+# Uvicorn：ASGI 服务器，负责把 FastAPI 应用跑起来
+uvicorn==0.30.6
+# Requests：HTTP 客户端，用来调用大模型 API
+requests==2.32.3
+# python-dotenv：读取 .env 配置文件
+python-dotenv==1.0.1
+# Pydantic：数据校验（FastAPI 依赖它做参数校验）
+pydantic==2.9.2
+
+# ==================== 可选依赖 ====================
+# Chroma 向量数据库（真实向量库方案）
+# 注意：如果你的环境装不上（常见于 Windows / Python 3.12+），
+# 直接把这一行注释掉即可 —— 程序会自动降级为内置的内存向量库，功能不受影响。
+chromadb==0.5.5
+
+# 单元测试框架（跑 pytest 用）
+pytest==8.3.3

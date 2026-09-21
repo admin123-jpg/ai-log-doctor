@@ -1,0 +1,27 @@
+[2026-09-15T09:12:03,101][INFO ][o.e.n.Node               ] [es-node-1] version[8.9.0], pid[1], build[default/docker/abc123/2026-08-01], OS[Linux/5.15.0-88-generic/amd64], JVM[Eclipse Adoptium/OpenJDK 64-Bit Server VM/17.0.8/17.0.8+7]
+[2026-09-15T09:12:05,234][INFO ][o.e.p.PluginsService     ] [es-node-1] loaded module [repository-url]
+[2026-09-15T09:12:08,567][INFO ][o.e.h.AbstractHttpServerTransport] [es-node-1] publish_address {172.18.0.20:9200}, bound_addresses {0.0.0.0:9200}
+[2026-09-15T09:12:10,890][INFO ][o.e.c.s.ClusterApplierService] [es-node-1] master node changed {previous [], current [{es-node-1}{abc}{xyz}{172.18.0.20}{172.18.0.20:9300}]}, term: 1, version: 1, reason: Publication{term=1, version=1}
+[2026-09-15T09:12:11,123][INFO ][o.e.n.Node               ] [es-node-1] started
+[2026-09-15T10:30:22,456][WARN ][o.e.c.r.a.DiskThresholdMonitor] [es-node-1] high disk watermark [90%] exceeded on [abc][es-node-1][/usr/share/elasticsearch/data/nodes/0] free: 45.2gb[8.1%], shards will be relocated away from this node
+[2026-09-15T10:30:22,457][INFO ][o.e.c.r.a.DiskThresholdMonitor] [es-node-1] rerouting shards: [high disk watermark exceeded on one or more nodes]
+[2026-09-15T11:15:33,789][WARN ][o.e.c.r.a.DiskThresholdMonitor] [es-node-1] flood stage disk watermark [95%] exceeded on [abc][es-node-1] free: 22.1gb[3.9%], all indices on this node will be marked read-only
+[2026-09-15T11:15:33,790][ERROR][o.e.c.r.a.DiskThresholdMonitor] [es-node-1] flood stage disk watermark [95%] exceeded, blocking writes to indices: [orders-2026.09, logs-2026.09, metrics-2026.09]
+[2026-09-15T12:05:44,111][WARN ][o.e.i.b.BreakerSettings  ] [es-node-1] [parent] Data too large, data for [<http_request>] would be [12456789012/11.6gb], which is larger than the limit of [12237336156/11.3gb]
+[2026-09-15T12:05:44,112][ERROR][o.e.b.ElasticsearchUncaughtExceptionHandler] [es-node-1] fatal error in thread [elasticsearch[es-node-1][search][T#5]], exiting
+org.elasticsearch.common.breaker.CircuitBreakingException: [parent] Data too large, data for [<http_request>] would be [12456789012/11.6gb], which is larger than the limit of [12237336156/11.3gb]
+    at org.elasticsearch.common.breaker.ChildMemoryCircuitBreaker.circuitBreak(ChildMemoryCircuitBreaker.java:105)
+    at org.elasticsearch.common.breaker.ChildMemoryCircuitBreaker.addEstimateBytesAndMaybeBreak(ChildMemoryCircuitBreaker.java:82)
+[2026-09-15T13:20:11,222][WARN ][o.e.m.j.JvmGcMonitorService] [es-node-1] [gc][2143] overhead, spent [12.4s] collecting in the last [13.1s]
+[2026-09-15T13:20:11,223][WARN ][o.e.m.j.JvmGcMonitorService] [es-node-1] [gc][young][2143][98ms] duration [12.4s], collections [3]/[13.1s], total [12.4s]/[45.2m], memory [6.2gb]->[5.8gb]/[8gb]
+[2026-09-15T14:02:55,334][WARN ][o.e.c.a.s.ShardStateAction] [es-node-1] [orders-2026.09][3] received shard failed for shard id [[orders-2026.09][3]], allocationId [xyz], primary term [0], message [failed to create shard]
+org.elasticsearch.index.engine.EngineCreationFailureException: failed to create engine
+Caused by: java.nio.file.FileSystemException: /usr/share/elasticsearch/data/nodes/0/indices/abc/3/index: No space left on device
+[2026-09-15T14:02:56,445][ERROR][o.e.c.a.AllocationService ] [es-node-1] failing shard [orders-2026.09][3] on node [abc]: failed to create shard, no space left on device
+[2026-09-15T15:30:00,556][WARN ][o.e.t.TransportService   ] [es-node-1] Transport response handler not found, transport handler is likely to be slow or unresponsive
+[2026-09-15T15:30:31,667][WARN ][o.e.d.PeerFinder         ] [es-node-1] address [10.0.1.40:9300], node [null], no longer in cluster, discarding
+[2026-09-15T15:30:31,668][ERROR][o.e.d.PeerFinder         ] [es-node-1] master not discovered or elected yet, an election requires at least 3 nodes with ids from [abc, def, ghi], have discovered [abc] which is not a quorum
+[2026-09-15T16:10:22,778][ERROR][o.e.b.ElasticsearchUncaughtExceptionHandler] [es-node-1] fatal error in thread [main], exiting
+java.lang.OutOfMemoryError: Java heap space
+    at org.elasticsearch.common.util.BigArrays.newByteArray(BigArrays.java:620)
+    at org.elasticsearch.search.aggregations.metrics.InternalMax.doReduce(InternalMax.java:112)

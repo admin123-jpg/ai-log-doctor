@@ -1,0 +1,14 @@
+2026/09/15 10:22:41 [error] 31#31: *1520 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: api.example.com, request: "POST /api/order HTTP/1.1", upstream: "http://172.18.0.12:8080/api/order", host: "api.example.com"
+2026/09/15 10:22:42 [error] 31#31: *1521 no live upstreams while connecting to upstream, client: 172.18.0.1, server: api.example.com, request: "GET /api/user/10086 HTTP/1.1", upstream: "http://backend/api/user/10086", host: "api.example.com"
+2026/09/15 10:35:12 [error] 31#31: *1688 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 10.0.2.35, server: api.example.com, request: "GET /api/report/export HTTP/1.1", upstream: "http://172.18.0.12:8080/api/report/export", host: "api.example.com"
+2026/09/15 10:35:12 [warn] 31#31: *1688 upstream server temporarily disabled while connecting to upstream, client: 10.0.2.35, request: "GET /api/report/export HTTP/1.1"
+2026/09/15 11:02:33 [error] 31#31: *2100 upstream sent too big header while reading response header from upstream, client: 10.0.2.88, server: api.example.com, request: "GET /api/dashboard HTTP/1.1", upstream: "http://172.18.0.12:8080/api/dashboard"
+2026/09/15 11:20:44 [crit] 31#31: *2455 open() "/var/log/nginx/error.log" failed (28: No space left on device)
+2026/09/15 11:20:45 [emerg] 28#28: *2456 open() "/var/cache/nginx/client_temp/0000000012" failed (13: Permission denied)
+2026/09/15 13:15:09 [error] 31#31: *3011 SSL_do_handshake() failed (SSL: error:14094416:SSL routines:ssl3_read_bytes:sslv3 alert certificate unknown:SSL alert number 46) while SSL handshaking, client: 203.0.113.45, server: 0.0.0.0:443
+2026/09/15 14:30:22 [warn] 31#31: *3456 limiting connections by zone "perip", client: 203.0.113.99, server: api.example.com, request: "GET /api/search?q=test HTTP/1.1"
+2026/09/15 14:30:23 [error] 31#31: *3456 limiting requests, excess: 20.550 by zone "req_limit", client: 203.0.113.99, server: api.example.com, request: "GET /api/search?q=test HTTP/1.1", host: "api.example.com"
+2026/09/15 15:41:38 [error] 31#31: *3999 recv() failed (104: Connection reset by peer) while reading response header from upstream, client: 10.0.2.77, server: api.example.com, request: "POST /api/upload HTTP/1.1", upstream: "http://172.18.0.12:8080/api/upload"
+2026/09/15 16:05:00 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)
+2026/09/15 16:05:00 [emerg] 1#1: still could not bind()
+2026/09/15 16:05:00 [notice] 1#1: try again after 500ms

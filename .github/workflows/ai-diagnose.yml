@@ -1,0 +1,77 @@
+# ==========================================================
+# AI 流水线失败诊断
+#
+# 触发时机：CI 工作流「运行失败」时自动触发
+#
+# 这是本项目的创意点：流水线不只是报红，
+# 而是自动把失败日志交给 AI 分析，把根因和修复建议评论到 PR 上。
+# ==========================================================
+
+name: AI 流水线失败诊断
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+jobs:
+  diagnose:
+    # 只有 CI 失败时才执行
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read            # 读取流水线日志
+      contents: read
+      pull_requests: write     # 写 PR 评论
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install fastapi==0.115.0 uvicorn==0.30.6 requests==2.32.3 \
+                      python-dotenv==1.0.1 pydantic==2.9.2
+
+      - name: 下载失败日志
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          echo "正在下载 run $RUN_ID 的失败日志..."
+          gh run view "$RUN_ID" --log-failed > ci-failed.log 2>&1 || echo "（下载日志失败，改用本地样本）"
+          # 日志可能非常大，只保留最后 300 行（错误信息通常在末尾）
+          tail -n 300 ci-failed.log > ci-failed-trim.log
+          echo "----- 日志预览 -----"
+          head -n 20 ci-failed-trim.log
+
+      - name: AI 诊断
+        env:
+          MOCK_MODE: ${{ secrets.LLM_API_KEY == '' && 'true' || 'false' }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          python scripts/ci_diagnose.py \
+            --log ci-failed-trim.log \
+            --out diagnosis.md \
+            --run-url "${{ github.event.workflow_run.html_url }}"
+
+      - name: 把诊断结果评论到 PR
+        if: github.event.workflow_run.pull_requests[0].number
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+        run: |
+          gh pr comment "$PR_NUMBER" --body-file diagnosis.md
+
+      - name: 上传诊断报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-diagnosis-report
+          path: diagnosis.md

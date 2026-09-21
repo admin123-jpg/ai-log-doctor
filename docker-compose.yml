@@ -1,0 +1,78 @@
+# ==========================================================
+# 被监控的演示环境
+# 作用：起三个容器，故意产生各种故障日志，供诊断系统分析
+#
+# 启动：  docker compose up -d
+# 停止：  docker compose down
+# 看日志：docker compose logs -f
+# ==========================================================
+
+services:
+
+  # ---------- MySQL 数据库 ----------
+  demo-mysql:
+    image: mysql:8.0
+    container_name: demo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: demo123
+      MYSQL_DATABASE: demo
+      TZ: Asia/Shanghai
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - ops-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-pdemo123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ---------- 演示应用（故意出错的 Flask 服务）----------
+  demo-app:
+    build: ./demo_app
+    container_name: demo-app
+    ports:
+      - "5000:5000"          # 本机访问 http://localhost:5000
+    environment:
+      MYSQL_HOST: demo-mysql
+      MYSQL_PORT: 3306
+      SLOW_SECONDS: "35"     # /slow 接口睡 35 秒，配合 nginx 30 秒超时可制造 504
+    depends_on:
+      - demo-mysql
+    networks:
+      - ops-net
+
+  # ---------- Nginx 反向代理 ----------
+  demo-nginx:
+    image: nginx:alpine
+    container_name: demo-nginx
+    ports:
+      - "8080:80"            # 本机访问 http://localhost:8080
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - demo-app
+    networks:
+      - ops-net
+
+  # ---------- （可选）把主程序也容器化 ----------
+  # 默认是让主程序在宿主机本地跑（用 VS Code 调试更方便）。
+  # 如果你想让主程序也跑在容器里，取消下面这段注释。
+  # 注意：它需要挂载 docker.sock 才能调用 docker logs 采集别的容器日志。
+  #
+  # doctor:
+  #   build: .
+  #   container_name: ai-doctor
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     WATCH_CONTAINERS: demo-nginx,demo-app,demo-mysql
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./data:/app/data
+  #     - ./knowledge:/app/knowledge
+  #   networks:
+  #     - ops-net
+
+networks:
+  ops-net:
+    driver: bridge

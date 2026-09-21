@@ -1,0 +1,19 @@
+2026-09-15T01:30:02.1234567Z Current runner version: '2.321.0'
+2026-09-15T01:30:02.3456789Z ##[group]Operating System
+2026-09-15T01:30:02.3457123Z Ubuntu 22.04.5 LTS
+2026-09-15T01:30:02.3457456Z ##[endgroup]
+2026-09-15T01:30:02.9876543Z ##[group]Run actions/checkout@v4
+2026-09-15T01:30:04.1122334Z Syncing repository: ss/ai-log-doctor
+2026-09-15T01:30:04.9988776Z ##[endgroup]
+2026-09-15T01:30:05.1111111Z ##[group]Run Set up Python 3.11
+2026-09-15T01:30:06.2222222Z Successfully set up Python 3.11.9
+2026-09-15T01:30:06.2233333Z ##[endgroup]
+2026-09-15T01:30:06.3000000Z ##[group]Run pip install -r requirements.txt
+2026-09-15T01:30:06.4000000Z Collecting fastapi==0.115.0
+2026-09-15T01:30:07.5000000Z   Downloading fastapi-0.115.0-py3-none-any.whl (94 kB)
+2026-09-15T01:30:09.6000000Z Collecting chromadb==0.5.5
+2026-09-15T01:30:11.7000000Z   Downloading chromadb-0.5.5-py3-none-any.whl (511 kB)
+2026-09-15T01:30:35.8000000Z ERROR: Could not find a version that satisfies the requirement onnxruntime>=1.14.1 (from chromadb)
+2026-09-15T01:30:35.9000000Z ERROR: No matching distribution found for onnxruntime>=1.14.1
+2026-09-15T01:30:36.0000000Z Error: Process completed with exit code 1.
+2026-09-15T01:30:36.1000000Z ##[error]Process completed with exit code 1.

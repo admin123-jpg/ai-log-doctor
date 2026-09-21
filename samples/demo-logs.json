@@ -1,0 +1,30 @@
+{
+  "_说明": "演示用日志样本。Docker 没启动或容器没跑起来时，程序会从这里随机取一条当日志来源，保证整条链路能跑通。你可以随意修改或新增。",
+  "demo-app": [
+    "Traceback (most recent call last):\n  File \"/app/app.py\", line 42, in index\n    conn = pymysql.connect(host='demo-mysql', user='root', password='secret')\n  File \"/usr/local/lib/python3.11/site-packages/pymysql/connections.py\", line 644, in __init__\n    raise OperationalError(2003, \"Can't connect to MySQL server\")\npymysql.err.OperationalError: (2003, \"Can't connect to MySQL server on 'demo-mysql' ([Errno 111] Connection refused)\")",
+
+    "[2026-09-15 01:20:33,451] ERROR in app: Exception on /api/data [GET]\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.11/site-packages/flask/app.py\", line 2190, in wsgi_app\n    response = self.full_dispatch_request()\n  File \"/usr/local/lib/python3.11/site-packages/flask/app.py\", line 1486, in full_dispatch_request\n    rv = self.handle_user_exception(e)\nKeyError: 'user_id'\n[2026-09-15 01:20:33,452] INFO: 172.18.0.1 - - \"GET /api/data HTTP/1.1\" 500 -",
+
+    "[2026-09-15 01:22:10,998] ERROR in worker: Task process_order timeout after 30s\n  File \"/app/tasks.py\", line 88, in process_order\n    result = requests.post(PAYMENT_URL, json=payload, timeout=30)\nrequests.exceptions.ReadTimeout: HTTPConnectionPool(host='payment-service', port=80): Read timed out. (read timeout=30)",
+
+    "MemoryError: Unable to allocate 2.4 GiB for an array with shape (300000, 1000)\n[2026-09-15 01:25:01] WARNING: Container memory usage 512MiB / 512MiB limit\n[2026-09-15 01:25:02] CRITICAL: Process killed by OOM killer"
+  ],
+  "demo-nginx": [
+    "2026/09/15 01:20:11 [error] 31#31: *12 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: localhost, request: \"GET /api/data HTTP/1.1\", upstream: \"http://172.18.0.3:5000/api/data\", host: \"localhost:8080\"",
+
+    "2026/09/15 01:21:45 [error] 31#31: *18 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 172.18.0.1, server: localhost, request: \"POST /api/order HTTP/1.1\", upstream: \"http://172.18.0.3:5000/api/order\"",
+
+    "2026/09/15 01:23:02 [crit] 28#28: *25 open() \"/var/log/nginx/access.log\" failed (13: Permission denied) while logging request",
+
+    "2026/09/15 01:24:30 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)\n2026/09/15 01:24:30 [emerg] 1#1: still could not bind()"
+  ],
+  "demo-mysql": [
+    "2026-09-15T01:20:05.123456Z 0 [ERROR] [MY-010311] [Server] Failed to start mysqld: Can't create/write to file '/var/lib/mysql/ibdata1' (OS errno 13 - Permission denied)\n2026-09-15T01:20:05.123789Z 0 [ERROR] [MY-010119] [Server] Aborting",
+
+    "2026-09-15T01:21:00.445566Z 14 [ERROR] [MY-000000] [Server] Too many connections: 152 active connections, max_connections=151\n2026-09-15T01:21:00.445789Z 14 [Warning] [MY-000000] [Server] Connection pool exhausted, rejecting new connection from 172.18.0.3",
+
+    "2026-09-15T01:26:12.778899Z 22 [ERROR] [MY-010311] [Server] InnoDB: Operating system error number 28 in a file operation\n2026-09-15T01:26:12.778912Z 22 [ERROR] [MY-012592] [Server] InnoDB: Error number 28 means 'No space left on device'",
+
+    "2026-09-15T01:27:40.112233Z 31 [Warning] [MY-010000] [Server] Slow query: SELECT * FROM orders WHERE created_at > '2026-01-01' (duration: 12.453s, rows_examined: 3845213)"
+  ]
+}
