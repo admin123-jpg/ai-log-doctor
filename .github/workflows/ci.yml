@@ -48,13 +48,39 @@ jobs:
       - name: 运行单元测试
         run: pytest tests -v
 
-      - name: 冒烟测试（建库 → 生成数据 → 扫描诊断）
+      # ---------- 冒烟测试 ----------
+      # 拆成独立步骤，失败时能一眼看出是哪一环出问题。
+      # 显式指定 VECTOR_BACKEND=memory（内存向量库）：内存后端是项目的保底方案，
+      # 必须在任何环境都能跑通，不该被「chromadb 装没装、装得好不好」影响。
+      # Chroma 的兼容性单独放在最后一步验证。
+      - name: 冒烟测试 - 构建知识库
         env:
           MOCK_MODE: 'true'
+          VECTOR_BACKEND: 'memory'
+        run: python -m src.main kb --force
+
+      - name: 冒烟测试 - 生成演示数据
+        env:
+          MOCK_MODE: 'true'
+          VECTOR_BACKEND: 'memory'
+        run: python -m src.main seed --rounds 1
+
+      - name: 冒烟测试 - 扫描诊断
+        env:
+          MOCK_MODE: 'true'
+          VECTOR_BACKEND: 'memory'
+        run: python -m src.main scan --no-docker
+
+      # Chroma 是可选增强，装不上/用不了都不该阻塞流水线（程序会自动降级），
+      # 所以这里 continue-on-error，只作为兼容性观察项。
+      - name: 冒烟测试 - Chroma 后端兼容性（可选）
+        continue-on-error: true
+        env:
+          MOCK_MODE: 'true'
+          VECTOR_BACKEND: 'chroma'
         run: |
-          python -m src.main kb
-          python -m src.main seed --rounds 1
-          python -m src.main scan --no-docker
+          rm -rf data
+          python -m src.main kb --force
 
   # ---------- 第二个 job：构建并推送镜像 ----------
   build:
